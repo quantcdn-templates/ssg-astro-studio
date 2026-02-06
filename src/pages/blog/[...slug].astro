@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('post');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = post.data.date.toLocaleDateString('en-AU', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const categoryColors: Record<string, string> = {
+  tutorial: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300',
+  news: 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300',
+  guide: 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300',
+  update: 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300',
+};
+---
+
+<Base title={post.data.title} description={post.data.description} image={post.data.image}>
+  <article>
+    <header class="mb-10">
+      <div class="flex items-center gap-3">
+        <time class="text-sm text-gray-500 dark:text-gray-500" datetime={post.data.date.toISOString()}>
+          {formattedDate}
+        </time>
+        {post.data.category && (
+          <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[post.data.category] || ''}`}>
+            {post.data.category}
+          </span>
+        )}
+        {post.data.readingTime && (
+          <span class="text-sm text-gray-500 dark:text-gray-500">
+            {post.data.readingTime} min read
+          </span>
+        )}
+      </div>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight">
+        {post.data.title}
+      </h1>
+      <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">
+        {post.data.description}
+      </p>
+      {post.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {post.data.tags.map((tag: string) => (
+            <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose prose-gray dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    <footer class="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
+      <a href="/blog" class="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline">
+        &larr; Back to blog
+      </a>
+    </footer>
+  </article>
+</Base>

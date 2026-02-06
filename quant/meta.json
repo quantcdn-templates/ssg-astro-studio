@@ -1,0 +1,10 @@
+{
+  "title": "Astro Studio",
+  "summary": "Content-driven Astro site with Quant Studio integration",
+  "content": "A clean Astro starter with blog and pages collections, Tailwind CSS, MDX support, dark mode, RSS feed, dynamic OG images, and a 404 page. Designed for visual editing with Quant Studio — your content schema becomes the editing interface.",
+  "categories": ["javascript", "astro", "studio"],
+  "tags": ["blog", "tailwind", "mdx", "content-collections", "rss", "og-images"],
+  "template_type": "ssg",
+  "requires_db": false,
+  "og_images": true
+}

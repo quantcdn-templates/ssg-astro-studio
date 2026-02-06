@@ -1,0 +1,22 @@
+---
+interface Props {
+  type?: 'info' | 'tip' | 'warning' | 'note';
+  title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+
+const styles = {
+  info: 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200',
+  tip: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200',
+  warning: 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200',
+  note: 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200',
+};
+---
+
+<div class={`rounded-lg border p-4 my-6 ${styles[type]}`}>
+  {title && <p class="font-semibold mb-1">{title}</p>}
+  <div class="text-sm leading-relaxed">
+    <slot />
+  </div>
+</div>

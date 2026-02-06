@@ -1,0 +1,61 @@
+---
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = 'A site built with Astro and Quant Studio.', image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image || new URL(`/og/${Astro.url.pathname === '/' ? 'home' : Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '/')}.png`, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
+    <header class="border-b border-gray-100 dark:border-gray-800">
+      <nav class="mx-auto max-w-3xl px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-lg font-semibold tracking-tight hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+          Studio
+        </a>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="/blog" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Blog</a>
+          <a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">About</a>
+          <ThemeToggle />
+        </div>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-3xl px-6 py-12">
+      <slot />
+    </main>
+
+    <footer class="border-t border-gray-100 dark:border-gray-800 mt-24">
+      <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-gray-500 dark:text-gray-500">
+        <p>&copy; {new Date().getFullYear()} &middot; Built with <a href="https://astro.build" class="underline hover:text-gray-700 dark:hover:text-gray-300">Astro</a> and <a href="https://www.quantcdn.io" class="underline hover:text-gray-700 dark:hover:text-gray-300">Quant Studio</a></p>
+      </div>
+    </footer>
+  </body>
+</html>

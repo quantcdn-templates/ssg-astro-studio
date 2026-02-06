@@ -1,0 +1,55 @@
+---
+title: Using components in your content
+description: MDX lets you embed interactive components directly in your markdown content.
+date: 2026-02-05
+author: Team
+tags:
+  - mdx
+  - components
+category: tutorial
+featured: true
+readingTime: 3
+---
+import Callout from '../../components/Callout.astro';
+
+MDX extends markdown with component support. You can import and use any Astro or framework component directly in your content files.
+
+## Callout components
+
+<Callout type="info" title="What is MDX?">
+  MDX is markdown with JSX support. It lets you import components and embed them alongside your writing, giving you the flexibility of a component framework with the simplicity of markdown.
+</Callout>
+
+Components are defined once and reused across your content. The Callout component above supports four types:
+
+<Callout type="tip" title="Tip">
+  Use the `tip` type for helpful suggestions and best practices.
+</Callout>
+
+<Callout type="warning" title="Warning">
+  Use the `warning` type for important caveats or potential issues.
+</Callout>
+
+<Callout type="note">
+  Notes work without a title too — useful for brief asides.
+</Callout>
+
+## How it works
+
+MDX files use the `.mdx` extension and support all standard markdown plus JSX. To use a component, import it at the top of your file (after the frontmatter):
+
+```mdx
+import Callout from '../../components/Callout.astro';
+
+<Callout type="tip" title="My tip">
+  Content goes here.
+</Callout>
+```
+
+You can create your own components and use them the same way. Any `.astro` component in `src/components/` is available for import.
+
+## Why MDX matters for Studio
+
+Quant Studio renders MDX content with full component support in its visual preview. This means you see your callouts, embeds, and custom components exactly as they will appear on your published site — while still editing in a comfortable writing interface.
+
+Components keep your content consistent. Define the design once, use it everywhere, and update the look across all posts by editing a single component file.
