@@ -10,10 +10,10 @@ export default defineConfig({
   build: {
     format: 'file',
   },
-  integrations: [
-    mdx(),
-    sitemap(),
-    robotsTxt(),
-    tailwind(),
-  ],
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+    routing: { prefixDefaultLocale: false },
+  },
+  integrations: [mdx(), sitemap(), robotsTxt(), tailwind()],
 });

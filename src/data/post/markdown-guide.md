@@ -14,7 +14,7 @@ This post demonstrates the markdown features available in your content. Use it a
 
 ## Text formatting
 
-You can write **bold text**, *italic text*, and ~~strikethrough~~. Combine them for ***bold italic***.
+You can write **bold text**, _italic text_, and ~~strikethrough~~. Combine them for **_bold italic_**.
 
 Inline `code` uses backticks.
 
@@ -59,10 +59,10 @@ console.log(greeting);
 
 ## Tables
 
-| Feature | Supported |
-|---------|-----------|
-| Headings | Yes |
-| Lists | Yes |
-| Code blocks | Yes |
-| Tables | Yes |
-| Footnotes | Yes |
+| Feature     | Supported |
+| ----------- | --------- |
+| Headings    | Yes       |
+| Lists       | Yes       |
+| Code blocks | Yes       |
+| Tables      | Yes       |
+| Footnotes   | Yes       |
