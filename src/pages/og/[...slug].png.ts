@@ -29,7 +29,7 @@ async function loadFont(): Promise<ArrayBuffer> {
 }
 
 export async function getStaticPaths() {
-  const posts = await getCollection('post');
+  const posts = (await getCollection('post')).filter((post) => !post.data.draft);
   const pages = await getCollection('page');
 
   const paths = [

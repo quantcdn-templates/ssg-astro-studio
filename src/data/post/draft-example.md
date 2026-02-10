@@ -9,6 +9,8 @@ category: update
 draft: true
 ---
 
-This post has `draft: true` in its frontmatter. It will not appear in the blog listing or RSS feed, but you can still preview it in Quant Studio's visual editor.
+This post has `draft: true` in its frontmatter. It will not appear on the published site — no page is generated during the build, so nothing is deployed to QuantCDN.
 
-When you're ready to publish, change `draft` to `false` (or remove it entirely) and merge to main.
+You can still preview and edit this post in Quant Studio's visual editor, which renders content in the browser independently of the static build.
+
+When you're ready to publish, change `draft` to `false` (or remove it entirely) and merge to main. The next build will generate and deploy the page.

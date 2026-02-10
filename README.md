@@ -44,7 +44,16 @@ MDX posts can import and use Astro components. The included `Callout` component 
 
 ### Draft posts
 
-Set `draft: true` in frontmatter to exclude a post from the blog listing and RSS feed. Draft posts are still built and can be previewed in Quant Studio.
+Set `draft: true` in frontmatter to exclude a post from the published site entirely. Draft posts are:
+
+- Excluded from the blog listing and home page
+- Excluded from the RSS feed
+- **Not built as static pages** — no HTML is generated or deployed to QuantCDN
+- Not included in OG image generation
+
+You can still preview and edit draft posts in Quant Studio's visual editor, which renders content in the browser independently of the static build.
+
+When you're ready to publish, set `draft` to `false` (or remove it) and the next build will generate and deploy the page.
 
 ## OG images
 
