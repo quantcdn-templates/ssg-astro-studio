@@ -8,7 +8,8 @@ interface Props {
   category?: string;
 }
 
-const { title, description, date, slug, tags = [], category } = Astro.props;
+const { title, description, date: rawDate, slug, tags = [], category } = Astro.props;
+const date = new Date(rawDate);
 const formattedDate = date.toLocaleDateString('en-AU', {
   year: 'numeric',
   month: 'long',

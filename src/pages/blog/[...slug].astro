@@ -16,7 +16,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { post } = Astro.props;
 const { Content } = await render(post);
 
-const formattedDate = post.data.date.toLocaleDateString('en-AU', {
+const formattedDate = new Date(post.data.date).toLocaleDateString('en-AU', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -36,7 +36,7 @@ const categoryColors: Record<string, string> = {
       <div class="flex items-center gap-3">
         <time
           class="text-sm text-gray-500 dark:text-gray-500"
-          datetime={post.data.date.toISOString()}
+          datetime={new Date(post.data.date).toISOString()}
           data-quant-field="date"
         >
           {formattedDate}
