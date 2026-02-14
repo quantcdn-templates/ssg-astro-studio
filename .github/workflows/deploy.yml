@@ -26,6 +26,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Cache revision log
+        uses: actions/cache@v4
+        with:
+          path: .quant-revision
+          key: quant-revision
+
       - name: Deploy to QuantCDN
         uses: quantcdn/deploy-action@v6
         with:
@@ -33,6 +39,7 @@ jobs:
           project: ${{ vars.QUANT_PROJECT }}
           token: ${{ secrets.QUANT_TOKEN }}
           dir: dist
+          revision-log: .quant-revision
 
       - name: Purge cache
         uses: quantcdn/purge-action@v6
