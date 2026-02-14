@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Cache revision log
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .quant-revision
           key: quant-revision
