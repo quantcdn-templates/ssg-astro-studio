@@ -8,6 +8,7 @@ tags:
   - architecture
 category: guide
 readingTime: 4
+image: /images/blog-astro.jpeg
 ---
 
 Astro is a web framework designed for content-driven websites. It ships zero JavaScript by default, generates static HTML at build time, and has first-class support for content collections with type-safe schemas.

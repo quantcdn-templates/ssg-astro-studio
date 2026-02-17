@@ -8,6 +8,7 @@ tags:
   - markdown
 category: guide
 readingTime: 2
+image: /images/blog-markdown.jpeg
 ---
 
 This post demonstrates the markdown features available in your content. Use it as a reference when writing.

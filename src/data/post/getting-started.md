@@ -9,7 +9,7 @@ tags:
 category: tutorial
 featured: true
 readingTime: 3
-image: /images/placeholder.svg
+image: /images/hero.jpeg
 ---
 
 Welcome to your new site powered by Quant Studio. This template gives you a clean starting point with blog posts and pages, all managed through a visual editor.
