@@ -53,7 +53,7 @@ const categoryColors: Record<string, string> = {
         }
         {
           post.data.readingTime && (
-            <span class="text-sm text-gray-500 dark:text-gray-500">{post.data.readingTime} min read</span>
+            <span class="text-sm text-gray-500 dark:text-gray-500" data-quant-field="readingTime">{post.data.readingTime} min read</span>
           )
         }
       </div>
@@ -64,14 +64,24 @@ const categoryColors: Record<string, string> = {
         {post.data.description}
       </p>
       {
-        post.data.tags.length > 0 && (
-          <div class="mt-4 flex flex-wrap gap-2">
+        post.data.tags?.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2" data-quant-field="tags">
             {post.data.tags.map((tag: string) => (
               <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
                 {tag}
               </span>
             ))}
           </div>
+        )
+      }
+      {
+        post.data.image && (
+          <img
+            src={post.data.image}
+            alt={post.data.title}
+            class="mt-6 w-full rounded-lg object-cover"
+            data-quant-field="image"
+          />
         )
       }
     </header>
