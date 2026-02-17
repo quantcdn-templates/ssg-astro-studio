@@ -19,18 +19,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
+      - name: Restore Astro build cache
+        uses: actions/cache@v5
+        with:
+          path: node_modules/.astro
+          key: astro-build-${{ hashFiles('src/data/**', 'src/assets/**') }}
+          restore-keys: |
+            astro-build-
 
-      - name: Cache revision log
+      - name: Restore revision log
         uses: actions/cache@v5
         with:
           path: .quant-revision
           key: quant-revision
+
+      - name: Build
+        run: npm run build
 
       - name: Deploy to QuantCDN
         uses: quantcdn/deploy-action@v6
