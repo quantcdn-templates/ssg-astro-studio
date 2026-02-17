@@ -36,9 +36,9 @@ jobs:
         uses: actions/cache@v5
         with:
           path: .quant-revision
-          key: quant-revision-${{ github.run_id }}
+          key: quant-revision-${{ github.ref }}-${{ github.run_id }}
           restore-keys: |
-            quant-revision-
+            quant-revision-${{ github.ref }}-
 
       - name: Build
         run: npm run build
