@@ -2,11 +2,12 @@
 import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { slug } from '../../lib/i18n';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('post')).filter((post) => !post.data.draft);
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: slug(post.id) },
     props: { post },
   }));
 }
@@ -53,7 +54,9 @@ const categoryColors: Record<string, string> = {
         }
         {
           post.data.readingTime && (
-            <span class="text-sm text-gray-500 dark:text-gray-500" data-quant-field="readingTime">{post.data.readingTime} min read</span>
+            <span class="text-sm text-gray-500 dark:text-gray-500" data-quant-field="readingTime">
+              {post.data.readingTime} min read
+            </span>
           )
         }
       </div>
