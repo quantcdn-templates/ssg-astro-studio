@@ -17,7 +17,7 @@ const { page } = Astro.props;
 const { Content } = await render(page);
 ---
 
-<Layouttitle={page.data.title} description={page.data.description} image={page.data.image}>
+<Layout title={page.data.title} description={page.data.description} image={page.data.image}>
   <article>
     <h1 class="text-3xl font-bold tracking-tight mb-4" data-quant-field="title">
       {page.data.title}
