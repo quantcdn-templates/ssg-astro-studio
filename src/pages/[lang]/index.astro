@@ -1,13 +1,24 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
-import PostCard from '../components/PostCard.astro';
-import { slug, isDefaultLocale } from '../lib/i18n';
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { slug, entryLocale, isDefaultLocale, isLocale, localePath } from '../../lib/i18n';
 
-const posts = (await getCollection('post'))
-  .filter((post) => !post.data.draft && isDefaultLocale(post))
-  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
-  .slice(0, 5);
+export async function getStaticPaths() {
+  const posts = (await getCollection('post')).filter((post) => !post.data.draft && !isDefaultLocale(post));
+  const locales = [...new Set(posts.map((p) => entryLocale(p.id)))];
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: {
+      posts: posts
+        .filter((p) => isLocale(p, locale))
+        .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+        .slice(0, 5),
+    },
+  }));
+}
+
+const { posts } = Astro.props;
 ---
 
 <Layout title="Home">
@@ -36,7 +47,10 @@ const posts = (await getCollection('post'))
       }
     </div>
     <div class="mt-10">
-      <a href="/blog" class="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline">
+      <a
+        href={localePath('/blog', Astro.currentLocale)}
+        class="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline"
+      >
         All posts &rarr;
       </a>
     </div>

@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { slug, entryLocale, isDefaultLocale, isLocale } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('post')).filter((post) => !post.data.draft && !isDefaultLocale(post));
+  const locales = [...new Set(posts.map((p) => entryLocale(p.id)))];
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: {
+      posts: posts
+        .filter((p) => isLocale(p, locale))
+        .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()),
+    },
+  }));
+}
+
+const { posts } = Astro.props;
+---
+
+<Layout title="Blog" description="All posts.">
+  <h1 class="text-3xl font-bold tracking-tight mb-10">Blog</h1>
+  <div class="space-y-10">
+    {
+      posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          slug={slug(post.id)}
+          tags={post.data.tags}
+          category={post.data.category}
+        />
+      ))
+    }
+  </div>
+</Layout>

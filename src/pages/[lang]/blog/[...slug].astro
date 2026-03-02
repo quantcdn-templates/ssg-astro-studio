@@ -1,13 +1,13 @@
 ---
 import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import { slug, isDefaultLocale, localePath } from '../../lib/i18n';
+import Layout from '../../../layouts/Layout.astro';
+import { slug, entryLocale, isDefaultLocale, localePath } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('post')).filter((post) => !post.data.draft && isDefaultLocale(post));
+  const posts = (await getCollection('post')).filter((post) => !post.data.draft && !isDefaultLocale(post));
   return posts.map((post) => ({
-    params: { slug: slug(post.id) },
+    params: { lang: entryLocale(post.id), slug: slug(post.id) },
     props: { post },
   }));
 }

@@ -1,4 +1,6 @@
 ---
+import { localePath } from '../lib/i18n';
+
 interface Props {
   title: string;
   description: string;
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const { title, description, date: rawDate, slug, tags = [], category } = Astro.props;
+const blogPath = localePath(`/blog/${slug}`, Astro.currentLocale);
 const date = new Date(rawDate);
 const formattedDate = date.toLocaleDateString('en-AU', {
   year: 'numeric',
@@ -25,7 +28,7 @@ const categoryColors: Record<string, string> = {
 ---
 
 <article class="group">
-  <a href={`/blog/${slug}`} class="block">
+  <a href={blogPath} class="block">
     <div class="flex items-center gap-3">
       <time class="text-sm text-gray-500 dark:text-gray-500" datetime={date.toISOString()}>
         {formattedDate}
