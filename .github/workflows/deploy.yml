@@ -43,6 +43,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
 
       - name: Deploy to QuantCDN
         uses: quantcdn/deploy-action@v6
