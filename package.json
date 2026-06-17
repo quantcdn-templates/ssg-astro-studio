@@ -16,16 +16,16 @@
     "fix:prettier": "prettier --write ."
   },
   "dependencies": {
-    "astro": "^5.16.2",
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/rss": "^4.0.0",
-    "@astrojs/sitemap": "^3.3.0",
-    "@astrojs/tailwind": "^6.0.2",
-    "@resvg/resvg-js": "^2.6.0",
+    "astro": "^6.4.7",
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "@resvg/resvg-js": "^2.6.2",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.1",
     "astro-robots-txt": "^1.0.0",
-    "satori": "^0.19.0",
-    "tailwindcss": "^3.4.17",
-    "@tailwindcss/typography": "^0.5.16"
+    "satori": "^0.26.0",
+    "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.0",
@@ -38,5 +38,11 @@
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0"
+  },
+  "overrides": {
+    "vite": "^7.3.2"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

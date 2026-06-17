@@ -1,5 +1,4 @@
 ---
-import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { slug, isDefaultLocale } from '../lib/i18n';
@@ -12,8 +11,6 @@ export async function getStaticPaths() {
   }));
 }
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
 const { page } = Astro.props;
 const { Content } = await render(page);
 ---
@@ -23,23 +20,19 @@ const { Content } = await render(page);
     <h1 class="text-3xl font-bold tracking-tight mb-4" data-quant-field="title">
       {page.data.title}
     </h1>
-    {
-      page.data.description && (
-        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8" data-quant-field="description">
-          {page.data.description}
-        </p>
-      )
-    }
-    {
-      page.data.image && (
-        <img
-          src={page.data.image}
-          alt={page.data.title}
-          class="w-full rounded-lg object-cover mb-8"
-          data-quant-field="image"
-        />
-      )
-    }
+    {page.data.description && (
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-8" data-quant-field="description">
+        {page.data.description}
+      </p>
+    )}
+    {page.data.image && (
+      <img
+        src={page.data.image}
+        alt={page.data.title}
+        class="w-full rounded-lg object-cover mb-8"
+        data-quant-field="image"
+      />
+    )}
     <div class="prose prose-gray dark:prose-invert max-w-none" data-quant-field="body">
       <Content />
     </div>

@@ -33,34 +33,26 @@ const categoryColors: Record<string, string> = {
       <time class="text-sm text-gray-500 dark:text-gray-500" datetime={date.toISOString()}>
         {formattedDate}
       </time>
-      {
-        category && (
-          <span
-            class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] || 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'}`}
-          >
-            {category}
-          </span>
-        )
-      }
+      {category && (
+        <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] || 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'}`}>
+          {category}
+        </span>
+      )}
     </div>
-    <h2
-      class="mt-1 text-xl font-semibold group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors"
-    >
+    <h2 class="mt-1 text-xl font-semibold group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
       {title}
     </h2>
     <p class="mt-2 text-gray-600 dark:text-gray-400 leading-relaxed">
       {description}
     </p>
   </a>
-  {
-    tags.length > 0 && (
-      <div class="mt-3 flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
-            {tag}
-          </span>
-        ))}
-      </div>
-    )
-  }
+  {tags.length > 0 && (
+    <div class="mt-3 flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
 </article>

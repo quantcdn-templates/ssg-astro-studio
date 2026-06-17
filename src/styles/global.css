@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Replaces class-based dark mode — ThemeToggle toggles `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-accent-50: #f0f4ff;
+  --color-accent-100: #dbe4ff;
+  --color-accent-200: #bac8ff;
+  --color-accent-300: #91a7ff;
+  --color-accent-400: #748ffc;
+  --color-accent-500: #5c7cfa;
+  --color-accent-600: #4c6ef5;
+  --color-accent-700: #4263eb;
+  --color-accent-800: #3b5bdb;
+  --color-accent-900: #364fc7;
+}

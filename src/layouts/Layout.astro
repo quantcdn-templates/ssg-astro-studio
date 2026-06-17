@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
@@ -9,16 +11,11 @@ interface Props {
 
 const { title, description = 'A site built with Astro and Quant Studio.', image } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage =
-  image ||
-  new URL(
-    `/og/${Astro.url.pathname === '/' ? 'home' : Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '/')}.png`,
-    Astro.site
-  );
+const ogImage = image || new URL(`/og/${Astro.url.pathname === '/' ? 'home' : Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '/')}.png`, Astro.site);
 ---
 
 <!doctype html>
-<html lang={Astro.currentLocale || 'en'} class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,27 +35,17 @@ const ogImage =
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <ClientRouter />
   </head>
   <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
     <header class="border-b border-gray-100 dark:border-gray-800">
       <nav class="mx-auto max-w-3xl px-6 py-4 flex items-center justify-between">
-        <a
-          href="/"
-          class="text-lg font-semibold tracking-tight hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
-        >
+        <a href="/" class="text-lg font-semibold tracking-tight hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
           Studio
         </a>
         <div class="flex items-center gap-6 text-sm">
-          <a
-            href="/blog"
-            class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >Blog</a
-          >
-          <a
-            href="/about"
-            class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >About</a
-          >
+          <a href="/blog" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Blog</a>
+          <a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">About</a>
           <ThemeToggle />
         </div>
       </nav>
@@ -70,14 +57,7 @@ const ogImage =
 
     <footer class="border-t border-gray-100 dark:border-gray-800 mt-24">
       <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-gray-500 dark:text-gray-500">
-        <p>
-          &copy; {new Date().getFullYear()} &middot; Built with <a
-            href="https://astro.build"
-            class="underline hover:text-gray-700 dark:hover:text-gray-300">Astro</a
-          > and <a href="https://www.quantcdn.io" class="underline hover:text-gray-700 dark:hover:text-gray-300"
-            >Quant Studio</a
-          >
-        </p>
+        <p>&copy; {new Date().getFullYear()} &middot; Built with <a href="https://astro.build" class="underline hover:text-gray-700 dark:hover:text-gray-300">Astro</a> and <a href="https://www.quantcdn.io" class="underline hover:text-gray-700 dark:hover:text-gray-300">Quant Studio</a></p>
       </div>
     </footer>
   </body>
