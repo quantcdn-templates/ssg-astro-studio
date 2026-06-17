@@ -23,34 +23,32 @@ const { posts } = Astro.props;
 
 <Layout title="Home">
   <section class="mb-16">
-    <h1 class="text-4xl font-bold tracking-tight">Welcome to your site</h1>
+    <h1 class="text-4xl font-bold tracking-tight">
+      Welcome to your site
+    </h1>
     <p class="mt-4 text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-      A clean starting point for content-driven websites. Write in markdown, edit visually with Quant Studio, deploy to
-      a global CDN.
+      A clean starting point for content-driven websites. Write in markdown, edit visually with Quant Studio, deploy to a global CDN.
     </p>
   </section>
 
   <section>
-    <h2 class="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-8">Recent posts</h2>
+    <h2 class="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-8">
+      Recent posts
+    </h2>
     <div class="space-y-10">
-      {
-        posts.map((post) => (
-          <PostCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            slug={slug(post.id)}
-            tags={post.data.tags}
-            category={post.data.category}
-          />
-        ))
-      }
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          slug={slug(post.id)}
+          tags={post.data.tags}
+          category={post.data.category}
+        />
+      ))}
     </div>
     <div class="mt-10">
-      <a
-        href={localePath('/blog', Astro.currentLocale)}
-        class="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline"
-      >
+      <a href={localePath('/blog', Astro.currentLocale)} class="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline">
         All posts &rarr;
       </a>
     </div>

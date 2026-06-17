@@ -1,20 +1,7 @@
-# dependencies
+# Dependencies — restored from the committed package-lock.json at build time.
+# Never commit or seed these; copyDirectory clones the whole tree into projects.
 node_modules/
 
-# build output
+# Astro build output / cache
 dist/
-
-# astro
 .astro/
-
-# environment variables
-.env
-.env.*
-
-# editor
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db

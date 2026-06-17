@@ -1,21 +1,25 @@
-import type { APIRoute } from 'astro';
+import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
+import { slug } from '../../lib/i18n';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
 
 async function loadFont(): Promise<ArrayBuffer> {
   // Fetch Inter font CSS with a browser UA to get woff2 URLs
-  const response = await fetch('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-  });
+  const response = await fetch(
+    'https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap',
+    { headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' } }
+  );
   const css = await response.text();
   const fontUrl = css.match(/src: url\(([^)]+)\) format\('woff2'\)/)?.[1];
   if (!fontUrl) {
     // Fallback: fetch the truetype version
-    const ttfResponse = await fetch('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+    const ttfResponse = await fetch(
+      'https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap'
+    );
     const ttfCss = await ttfResponse.text();
     const ttfUrl = ttfCss.match(/src: url\(([^)]+)\)/)?.[1];
     if (!ttfUrl) {
@@ -28,25 +32,25 @@ async function loadFont(): Promise<ArrayBuffer> {
   return fontResponse.arrayBuffer();
 }
 
-export async function getStaticPaths() {
-  const posts = (await getCollection('post')).filter((post) => !post.data.draft);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('post');
   const pages = await getCollection('page');
 
   const paths = [
     { params: { slug: 'home' }, props: { title: 'Studio' } },
     { params: { slug: 'blog' }, props: { title: 'Blog' } },
     ...posts.map((post) => ({
-      params: { slug: `blog/${post.id}` },
+      params: { slug: `blog/${slug(post.id)}` },
       props: { title: post.data.title },
     })),
     ...pages.map((page) => ({
-      params: { slug: page.id },
+      params: { slug: slug(page.id) },
       props: { title: page.data.title },
     })),
   ];
 
   return paths;
-}
+};
 
 export const GET: APIRoute = async ({ props }) => {
   const { title } = props as { title: string };
@@ -123,7 +127,7 @@ export const GET: APIRoute = async ({ props }) => {
   });
   const png = resvg.render().asPng();
 
-  return new Response(new Uint8Array(png), {
+  return new Response(png, {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',

@@ -10,16 +10,14 @@ category: tutorial
 featured: true
 readingTime: 3
 ---
-
-import Callout from '../../components/Callout.astro';
+import Callout from '../../../components/Callout.astro';
 
 MDX extends markdown with component support. You can import and use any Astro or framework component directly in your content files.
 
 ## Callout components
 
 <Callout type="info" title="What is MDX?">
-  MDX is markdown with JSX support. It lets you import components and embed them alongside your writing, giving you the
-  flexibility of a component framework with the simplicity of markdown.
+  MDX is markdown with JSX support. It lets you import components and embed them alongside your writing, giving you the flexibility of a component framework with the simplicity of markdown.
 </Callout>
 
 Components are defined once and reused across your content. The Callout component above supports four types:
@@ -32,14 +30,16 @@ Components are defined once and reused across your content. The Callout componen
   Use the `warning` type for important caveats or potential issues.
 </Callout>
 
-<Callout type="note">Notes work without a title too — useful for brief asides.</Callout>
+<Callout type="note">
+  Notes work without a title too — useful for brief asides.
+</Callout>
 
 ## How it works
 
 MDX files use the `.mdx` extension and support all standard markdown plus JSX. To use a component, import it at the top of your file (after the frontmatter):
 
 ```mdx
-import Callout from '../../components/Callout.astro';
+import Callout from '../../../components/Callout.astro';
 
 <Callout type="tip" title="My tip">
   Content goes here.

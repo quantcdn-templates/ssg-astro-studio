@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
 import robotsTxt from 'astro-robots-txt';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://example.com',
@@ -12,8 +12,19 @@ export default defineConfig({
   },
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
-    routing: { prefixDefaultLocale: false },
+    locales: ['en', 'es', 'fr'],
+    routing: {
+      prefixDefaultLocale: false,
+      // Astro 6 flipped the default true → false. Set explicitly to lock behavior.
+      redirectToDefaultLocale: false,
+    },
   },
-  integrations: [mdx(), sitemap(), robotsTxt(), tailwind()],
+  integrations: [
+    mdx(),
+    sitemap(),
+    robotsTxt(),
+  ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
