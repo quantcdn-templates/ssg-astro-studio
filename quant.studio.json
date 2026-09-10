@@ -1,0 +1,26 @@
+{
+  "_components": {
+    "groups": [
+      {
+        "id": "content",
+        "label": "Content"
+      }
+    ],
+    "items": [
+      {
+        "path": "src/components/Callout.astro",
+        "group": "content",
+        "description": "Coloured note box.",
+        "defaults": {
+          "type": "info",
+          "title": "Note"
+        }
+      },
+      {
+        "path": "src/components/PostCard.astro",
+        "group": "content",
+        "description": "Card for one post."
+      }
+    ]
+  }
+}
