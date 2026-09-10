@@ -1,12 +1,14 @@
 /**
  * i18n helpers for content collection routing.
  *
- * Content collections with locale subdirectories (e.g. src/content/post/en/)
- * produce entry IDs like "en/getting-started". These helpers extract the slug
- * and locale portions, and build locale-aware URLs.
+ * Default-locale content lives at the collection root (e.g.
+ * src/content/post/getting-started.md), matching prefixDefaultLocale: false
+ * in astro.config.mjs. Its entry IDs have no locale prefix, such as
+ * "getting-started".
  *
- * When content is flat (no locale subdirs), IDs have no prefix and are treated
- * as the default locale automatically.
+ * Translations live in locale subdirectories, such as src/content/post/es/,
+ * which produce entry IDs like "es/getting-started". These helpers extract
+ * the slug and locale portions, and build locale-aware URLs.
  */
 
 /** Default locale — must match astro.config.mjs i18n.defaultLocale */
@@ -32,6 +34,7 @@ export function isDefaultLocale(entry: { id: string }): boolean {
 
 /** Keep only entries matching a specific locale. */
 export function isLocale(entry: { id: string }, locale: string): boolean {
+  if (locale === defaultLocale) return isDefaultLocale(entry);
   return entry.id.startsWith(locale + '/');
 }
 
