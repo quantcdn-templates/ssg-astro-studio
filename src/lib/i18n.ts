@@ -14,15 +14,27 @@
  * locale: src/content/pages/about/team.md builds at /about/team. The template
  * ships English only, so the [lang] routes build no pages until a configured
  * locale has a folder.
+ *
+ * astro.config.mjs is the one place that lists the locales. This file reads
+ * its i18n block as text (a `?raw` import), because the real Astro build and
+ * the Quant Studio preview both load `?raw`, while the preview only stubs
+ * `astro:config/client`. Studio reads and writes the same `locales: [...]`
+ * list. Only string locale entries count, as Studio writes them.
  */
-import { i18n } from 'astro:config/client';
+import astroConfigSource from '../../astro.config.mjs?raw';
+
+/** The i18n block of astro.config.mjs (one level of nested braces), or ''. */
+const i18nBlock = /\bi18n\s*:\s*\{[^}]*(?:\{[^}]*\}[^}]*)*\}/.exec(astroConfigSource)?.[0] ?? '';
 
 /** Default locale, read from astro.config.mjs i18n.defaultLocale. */
-export const defaultLocale: string = i18n?.defaultLocale ?? 'en';
+export const defaultLocale: string =
+  /\bdefaultLocale\s*:\s*['"]([A-Za-z0-9_-]+)['"]/.exec(i18nBlock)?.[1] ?? 'en';
 
-/** URL path segment of each configured locale (string or { path, codes }). */
+/** Every locale listed in astro.config.mjs i18n.locales. */
 const localeSegments = new Set<string>(
-  (i18n?.locales ?? []).map((locale) => (typeof locale === 'string' ? locale : locale.path))
+  [...(/\blocales\s*:\s*\[([^\]]*)\]/.exec(i18nBlock)?.[1] ?? '').matchAll(/['"]([A-Za-z0-9_-]+)['"]/g)].map(
+    (match) => match[1]
+  )
 );
 
 /** Return the first folder of an entry ID when it is a configured locale. */

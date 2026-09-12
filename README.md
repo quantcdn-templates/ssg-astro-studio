@@ -48,7 +48,7 @@ The template ships English only. `astro.config.mjs` sets `i18n.locales` to `['en
 
 - **Default-locale (English) content** sits flat at the collection root, for example `src/content/post/getting-started.md`. Do not put it in an `en/` folder. It is served without a prefix, at `/blog/getting-started`.
 - **Another locale's content** goes in `src/content/<collection>/<locale>/`, for example `src/content/post/fr/getting-started.md`. It is served at `/fr/blog/getting-started`.
-- **Add the locale** to `i18n.locales` in `astro.config.mjs`, for example `['en', 'fr']`.
+- **Add the locale** to `i18n.locales` in `astro.config.mjs`, for example `['en', 'fr']`. That list is the one place to add a locale. `src/lib/i18n.ts` reads it from `astro.config.mjs`, and Quant Studio reads and writes the same list, so do not list locales anywhere else.
 
 ### Draft posts
 
