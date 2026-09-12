@@ -2,7 +2,7 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
-import { slug, entryLocale, localePath } from '../../lib/i18n';
+import { slug, entryLocale, isDefaultLocale, localePath } from '../../lib/i18n';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -35,10 +35,19 @@ async function loadFont(): Promise<ArrayBuffer> {
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('post');
   const pages = await getCollection('page');
+  // Each other locale with a published post has a home and a blog page ([lang]/index, [lang]/blog).
+  const otherLocales = [
+    ...new Set(posts.filter((post) => !post.data.draft && !isDefaultLocale(post)).map((post) => entryLocale(post.id))),
+  ];
 
   const paths = [
     { params: { slug: 'home' }, props: { title: 'Studio' } },
     { params: { slug: 'blog' }, props: { title: 'Blog' } },
+    { params: { slug: '404' }, props: { title: 'Page not found' } },
+    ...otherLocales.flatMap((locale) => [
+      { params: { slug: locale }, props: { title: 'Studio' } },
+      { params: { slug: `${locale}/blog` }, props: { title: 'Blog' } },
+    ]),
     // Match the path that Layout.astro requests: /og/<locale-prefixed path>.png
     ...posts.map((post) => ({
       params: { slug: localePath(`/blog/${slug(post.id)}`, entryLocale(post.id)).slice(1) },

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import { pathLocale } from '../lib/i18n';
 
 interface Props {
   title: string;
@@ -11,11 +12,15 @@ interface Props {
 
 const { title, description = 'A site built with Astro and Quant Studio.', image } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = image || new URL(`/og/${Astro.url.pathname === '/' ? 'home' : Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '/')}.png`, Astro.site);
+// The OG route builds /og/<page path>.png. build.format 'file' gives paths
+// such as /about.html and /index.html, so drop ".html"; the home page is "home".
+const ogSlug = Astro.url.pathname.replace(/^\/+|\/+$/g, '').replace(/\.html$/, '').replace(/(^|\/)index$/, '') || 'home';
+const ogImage = image || new URL(`/og/${ogSlug}.png`, Astro.site);
+const lang = pathLocale(Astro.url.pathname);
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
