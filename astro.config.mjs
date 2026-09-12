@@ -12,7 +12,9 @@ export default defineConfig({
   },
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'es', 'fr'],
+    // Default-locale content sits flat at the collection root. Add a locale
+    // here only when its content exists in src/content/<collection>/<locale>/.
+    locales: ['en'],
     routing: {
       prefixDefaultLocale: false,
       // Astro 6 flipped the default true → false. Set explicitly to lock behavior.

@@ -27,12 +27,12 @@ Open [http://localhost:4321](http://localhost:4321).
 
 ## Content
 
-Content lives in `src/data/` as markdown and MDX files with frontmatter:
+Content lives in `src/content/` as markdown and MDX files with frontmatter:
 
-- **Blog posts** in `src/data/post/` — title, description, date, author, tags, draft, category, featured, readingTime, image
-- **Pages** in `src/data/pages/` — title, description
+- **Blog posts** in `src/content/post/` — title, description, date, author, tags, draft, category, featured, readingTime, image
+- **Pages** in `src/content/pages/` — title, description
 
-Schemas are defined in `src/content/config.ts` using Zod. Quant Studio reads these schemas to generate its visual editing interface.
+Schemas are defined in `src/content.config.ts` using Zod. Quant Studio reads these schemas to generate its visual editing interface.
 
 ### Categories
 
@@ -40,7 +40,15 @@ Posts support a `category` field with these options: `tutorial`, `news`, `guide`
 
 ### MDX components
 
-MDX posts can import and use Astro components. The included `Callout` component supports four types: `info`, `tip`, `warning`, and `note`. See `src/data/post/mdx-components.mdx` for examples.
+MDX posts can import and use Astro components. The included `Callout` component supports four types: `info`, `tip`, `warning`, and `note`. See `src/content/post/mdx-components.mdx` for examples.
+
+### Translations
+
+The template ships English only. `astro.config.mjs` sets `i18n.locales` to `['en']` with `prefixDefaultLocale: false`.
+
+- **Default-locale (English) content** sits flat at the collection root, for example `src/content/post/getting-started.md`. Do not put it in an `en/` folder. It is served without a prefix, at `/blog/getting-started`.
+- **Another locale's content** goes in `src/content/<collection>/<locale>/`, for example `src/content/post/fr/getting-started.md`. It is served at `/fr/blog/getting-started`.
+- **Add the locale** to `i18n.locales` in `astro.config.mjs`, for example `['en', 'fr']`.
 
 ### Draft posts
 

@@ -6,9 +6,12 @@
  * in astro.config.mjs. Its entry IDs have no locale prefix, such as
  * "getting-started".
  *
- * Translations live in locale subdirectories, such as src/content/post/es/,
- * which produce entry IDs like "es/getting-started". These helpers extract
- * the slug and locale portions, and build locale-aware URLs.
+ * Translations live in locale subdirectories, src/content/<collection>/<locale>/,
+ * which produce entry IDs like "<locale>/getting-started". Each locale must
+ * also be listed in astro.config.mjs i18n.locales. The template ships English
+ * only, so the [lang] routes build no pages until a locale folder exists.
+ * These helpers extract the slug and locale portions, and build locale-aware
+ * URLs.
  */
 
 /** Default locale — must match astro.config.mjs i18n.defaultLocale */
