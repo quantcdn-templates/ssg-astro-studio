@@ -2,7 +2,7 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
-import { slug } from '../../lib/i18n';
+import { slug, entryLocale, localePath } from '../../lib/i18n';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -39,12 +39,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [
     { params: { slug: 'home' }, props: { title: 'Studio' } },
     { params: { slug: 'blog' }, props: { title: 'Blog' } },
+    // Match the path that Layout.astro requests: /og/<locale-prefixed path>.png
     ...posts.map((post) => ({
-      params: { slug: `blog/${slug(post.id)}` },
+      params: { slug: localePath(`/blog/${slug(post.id)}`, entryLocale(post.id)).slice(1) },
       props: { title: post.data.title },
     })),
     ...pages.map((page) => ({
-      params: { slug: slug(page.id) },
+      params: { slug: localePath(`/${slug(page.id)}`, entryLocale(page.id)).slice(1) },
       props: { title: page.data.title },
     })),
   ];
