@@ -152,7 +152,7 @@ export function isLocale(entry: { id: string }, locale: string): boolean {
   return entryLocale(entry.id) === locale;
 }
 
-/** The locale of a URL path ("/fr.html", "/fr/blog"): its first segment when that is a locale. */
+/** The locale of a URL path ("/fr", "/fr/blog"): its first segment when that is a locale. */
 export function pathLocale(pathname: string): string {
   const first = pathname.replace(/^\/+/, '').split('/')[0].replace(/\.html$/, '');
   return localeSegments.has(first) ? first : defaultLocale;

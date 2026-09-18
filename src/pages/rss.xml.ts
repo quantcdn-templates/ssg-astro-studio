@@ -12,6 +12,9 @@ export async function GET(context: APIContext) {
     title: 'Studio',
     description: 'A site built with Astro and Quant Studio.',
     site: context.site!,
+    // The site's addresses carry no trailing slash (`trailingSlash: 'never'`),
+    // so the feed must not add one.
+    trailingSlash: false,
     items: posts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,
