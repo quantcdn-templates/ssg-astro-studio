@@ -1,19 +1,16 @@
 /**
  * i18n helpers for content collection routing.
  *
- * Default-locale content lives at the collection root (e.g.
- * src/content/post/getting-started.md), matching prefixDefaultLocale: false
- * in astro.config.mjs. Its entry IDs have no locale prefix, such as
- * "getting-started".
- *
- * Translations live in locale subdirectories, src/content/<collection>/<locale>/,
- * which produce entry IDs like "<locale>/getting-started".
+ * The default locale's entries sit at the collection root and produce IDs
+ * with no prefix (e.g. "getting-started"). Another locale's entries sit in
+ * <collection>/<locale>/ and produce IDs like "fr/getting-started". These
+ * helpers extract the slug and locale portions, and build locale-aware URLs.
  *
  * A subfolder is a locale ONLY when its name is in astro.config.mjs
  * i18n.locales. Every other subfolder is a nested section of the default
- * locale: src/content/pages/about/team.md builds at /about/team. The template
- * ships English only, so the [lang] routes build no pages until a configured
- * locale has a folder.
+ * locale: src/content/post/guides/x.md builds at /blog/guides/x. To add a
+ * locale, add it to i18n.locales and put its entries in <collection>/<locale>/.
+ * The [lang] routes build pages only for configured locales that have entries.
  *
  * astro.config.mjs is the one place that lists the locales. This file reads
  * it as text (a `?raw` import), because the real Astro build and the Quant
@@ -152,7 +149,7 @@ export function isLocale(entry: { id: string }, locale: string): boolean {
   return entryLocale(entry.id) === locale;
 }
 
-/** The locale of a URL path ("/fr", "/fr/blog"): its first segment when that is a locale. */
+/** The locale of a URL path ("/fr.html", "/fr/blog"): its first segment when that is a locale. */
 export function pathLocale(pathname: string): string {
   const first = pathname.replace(/^\/+/, '').split('/')[0].replace(/\.html$/, '');
   return localeSegments.has(first) ? first : defaultLocale;

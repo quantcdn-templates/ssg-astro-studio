@@ -1,0 +1,62 @@
+---
+/**
+ * One post, as the blog and [lang]/blog routes render it.
+ * Each element that shows a frontmatter field carries data-quant-field,
+ * so Quant Studio can find it in the live preview.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { localePath } from '../lib/i18n';
+import { categoryLabel, formatDate } from '../site';
+
+interface Props {
+  post: CollectionEntry<'post'>;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const date = new Date(data.date);
+---
+
+<article>
+  <header class="wrap pt-10 md:pt-20">
+    <div>
+      <p class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        {data.category && <span class="kicker text-xl md:text-2xl" data-quant-field="category">{categoryLabel(data.category)}</span>}
+        <time class="ui muted" datetime={date.toISOString()} data-quant-field="date">{formatDate(date)}</time>
+      </p>
+      <h1 class="display rise mt-5 md:mt-6 text-[3.25rem] leading-[0.96] sm:text-[4.75rem] lg:text-[8.75rem]" style="font-weight:320" data-quant-field="title">
+        {data.title}
+      </h1>
+      <p class="mt-8 md:mt-10 text-xl md:text-[1.75rem] leading-[1.4] max-w-[40ch] muted" style="font-weight:340" data-quant-field="description">
+        {data.description}
+      </p>
+      <p class="ui mt-8 flex flex-wrap gap-x-6 gap-y-1">
+        <span data-quant-field="author">By {data.author}</span>
+        {data.readingTime && <span class="muted" data-quant-field="readingTime">{data.readingTime} minute read</span>}
+      </p>
+    </div>
+  </header>
+
+  {data.image && (
+    <figure class="wrap mt-12 md:mt-20">
+      <div class="frame aspect-[16/10] md:aspect-[21/10]">
+        <img src={data.image} alt="" loading="eager" fetchpriority="high" data-quant-field="image" />
+      </div>
+    </figure>
+  )}
+
+  <div class="article-body wrap mt-14 md:mt-24" data-quant-field="body">
+    <slot />
+  </div>
+
+  <footer class="wrap mt-20 md:mt-28">
+    <div class="max-w-[36rem] mx-auto ui flex flex-wrap items-center justify-between gap-6 pt-8 border-t border-[var(--line)]">
+      {data.tags.length > 0 && (
+        <ul class="flex flex-wrap gap-2" data-quant-field="tags" aria-label="Tags">
+          {data.tags.map((tag) => <li class="px-3 py-1 rounded-full bg-[var(--tint)]">{tag}</li>)}
+        </ul>
+      )}
+      <a href={localePath('/blog', Astro.currentLocale)} class="link">Back to the journal</a>
+    </div>
+  </footer>
+</article>

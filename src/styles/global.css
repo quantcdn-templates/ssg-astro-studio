@@ -1,20 +1,412 @@
 @import "tailwindcss";
+@import "./fonts.css";
 @plugin "@tailwindcss/typography";
 
-/* Replaces class-based dark mode — ThemeToggle toggles `.dark` on <html>. */
+/* ThemeToggle sets `.dark` on <html>. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --font-sans: "Inter", system-ui, sans-serif;
+/*
+ * Fieldwork, direction A: a journal printed in one ink.
+ * Every colour on the page comes from two tokens, paper and ink.
+ * Change them here to re-ink the whole site.
+ */
+:root {
+  --paper: #f5f6f2;
+  --ink: #15306a;
+  --ink-2: color-mix(in oklab, var(--ink) 74%, var(--paper));
+  --ink-3: color-mix(in oklab, var(--ink) 58%, var(--paper));
+  --tint: color-mix(in oklab, var(--ink) 7%, var(--paper));
+  --line: color-mix(in oklab, var(--ink) 22%, var(--paper));
+  /* The footer band: solid ink in light mode, a deeper blue in dark mode. */
+  --band: var(--ink);
+  --band-text: var(--paper);
+  --display: "Fraunces", Georgia, serif;
+  --text: "Fraunces", Georgia, serif;
+  --ui: "Instrument Sans", system-ui, sans-serif;
+  color-scheme: light;
+}
 
-  --color-accent-50: #f0f4ff;
-  --color-accent-100: #dbe4ff;
-  --color-accent-200: #bac8ff;
-  --color-accent-300: #91a7ff;
-  --color-accent-400: #748ffc;
-  --color-accent-500: #5c7cfa;
-  --color-accent-600: #4c6ef5;
-  --color-accent-700: #4263eb;
-  --color-accent-800: #3b5bdb;
-  --color-accent-900: #364fc7;
+.dark {
+  --paper: #0d1c3a;
+  --ink: #e6ecf7;
+  --ink-2: color-mix(in oklab, var(--ink) 80%, var(--paper));
+  --ink-3: color-mix(in oklab, var(--ink) 66%, var(--paper));
+  --tint: color-mix(in oklab, var(--ink) 7%, var(--paper));
+  --band: #071330;
+  --band-text: var(--ink);
+  color-scheme: dark;
+}
+
+@theme {
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--paper);
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.wrap {
+  width: min(100% - 2rem, 84rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    width: min(100% - 5rem, 84rem);
+  }
+}
+
+/* ---------- Type roles ---------- */
+
+.ui {
+  font-family: var(--ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.005em;
+}
+
+.display {
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+  font-weight: 340;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.kicker {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  color: var(--ink-2);
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--line);
+  transition: text-decoration-color 160ms ease;
+}
+
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+.story-link {
+  text-decoration: none;
+}
+
+.story-link:hover .story-title {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.12em;
+}
+
+.frame {
+  overflow: hidden;
+  background: var(--tint);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  font-family: var(--display);
+  font-weight: 300;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  font-size: clamp(4.5rem, 27.4vw, 25.25rem);
+  line-height: 0.8;
+  letter-spacing: -0.055em;
+  margin-left: -0.04em;
+}
+
+/* ---------- Article body ---------- */
+
+.article-body {
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  font-weight: 370;
+  font-variation-settings: "SOFT" 50;
+  color: var(--ink);
+}
+
+@media (min-width: 768px) {
+  .article-body {
+    font-size: 1.3125rem;
+  }
+}
+
+.article-body > * {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.article-body > * + * {
+  margin-top: 1.25em;
+}
+
+.article-body > p:first-child::first-letter {
+  float: left;
+  font-family: var(--display);
+  font-weight: 300;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  font-size: 4.2em;
+  line-height: 0.76;
+  padding: 0.08em 0.1em 0 0;
+}
+
+@media (min-width: 768px) {
+  .article-body > p:first-child::first-letter {
+    font-size: 5.4em;
+  }
+}
+
+.article-body h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-variation-settings: "SOFT" 100;
+  font-size: 1.75em;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin-top: 2.2em;
+}
+
+.article-body h2 + * {
+  margin-top: 0.75em;
+}
+
+.article-body h3 {
+  font-family: var(--ui);
+  font-weight: 600;
+  font-size: 0.95em;
+  margin-top: 2em;
+}
+
+.article-body a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.article-body strong {
+  font-weight: 600;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 1.2em;
+}
+
+.article-body ul {
+  list-style: none;
+}
+
+.article-body ul > li {
+  position: relative;
+}
+
+.article-body ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.1em;
+  top: 0.8em;
+  width: 0.45em;
+  height: 1px;
+  background: currentColor;
+}
+
+.article-body ol {
+  list-style: decimal;
+}
+
+.article-body li + li {
+  margin-top: 0.4em;
+}
+
+.article-body blockquote {
+  max-width: 48rem;
+  margin-block: 2em;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 330;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  text-align: center;
+}
+
+.article-body blockquote p + p {
+  margin-top: 0.5em;
+  font-size: 0.5em;
+  font-style: normal;
+}
+
+.article-body img {
+  display: block;
+  width: 100%;
+  max-width: 48rem;
+  max-height: 85vh;
+  object-fit: cover;
+  margin-block: 2.5em;
+}
+
+.article-body p:has(> img:only-child) {
+  max-width: 48rem;
+}
+
+.article-body code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82em;
+  background: var(--tint);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+/* A plain block takes the paper tint. A highlighted block (pre.shiki from the Studio runtime, which writes one dark
+   theme inline; pre.astro-code from astro build) is a dark panel in both themes, so its colours always read. */
+.article-body pre {
+  max-width: 36rem;
+  background-color: var(--tint);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+.article-body pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.article-body table {
+  width: 100%;
+  font-family: var(--ui);
+  font-size: 0.8em;
+  border-collapse: collapse;
+}
+
+.article-body th,
+.article-body td {
+  text-align: left;
+  padding: 0.6em 0.8em 0.6em 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.article-body hr {
+  border: 0;
+  height: 1px;
+  background: var(--line);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 900ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.25em);
+    }
+  }
+}
+
+/* The footer is printed in solid ink, so its focus ring uses the paper colour. */
+footer :focus-visible {
+  outline-color: var(--band-text);
+}
+
+/* Highlighted code: astro build writes light colours inline and the dark theme as --shiki-dark*; use the dark one in
+   both themes. The Studio runtime's pre.shiki already carries its dark theme inline and keeps it. */
+.article-body pre.astro-code {
+  background-color: var(--shiki-dark-bg, #0a0c10) !important;
+}
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark) !important;
+}
+
+/* ---------- Callout (MDX) ---------- */
+
+.article-body .callout {
+  max-width: 36rem;
+  padding: 1.1em 1.4em 1.25em;
+  font-size: 0.9em;
+  line-height: 1.6;
+  border-radius: 4px;
+}
+
+.callout-label {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  font-size: 1.15em;
+  margin-bottom: 0.3em;
+}
+
+.callout-body > * + * {
+  margin-top: 0.6em;
+}
+
+.callout-info {
+  background: var(--tint);
+}
+
+.callout-tip {
+  border: 1px solid var(--line);
+}
+
+.callout-warning {
+  background: var(--tint);
+  border-left: 4px solid var(--ink);
+  border-radius: 0 4px 4px 0;
+}
+
+.callout-note {
+  padding-block: 0.25em;
+  padding-inline: 1.4em 0;
+  border-left: 1px solid var(--line);
+  border-radius: 0;
+  font-style: italic;
 }

@@ -1,0 +1,40 @@
+---
+/**
+ * One entry of the `page` collection (About and any page you add), as the
+ * [...slug] and [lang]/[...slug] routes render it. Each element that shows
+ * a frontmatter field carries data-quant-field for the Quant Studio preview.
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  page: CollectionEntry<'page'>;
+}
+
+const { page } = Astro.props;
+const { data } = page;
+---
+
+<article>
+  <header class="wrap pt-10 md:pt-20">
+    <h1 class="display rise text-[3.25rem] leading-[0.96] sm:text-[4.75rem] lg:text-[7.5rem]" style="font-weight:320" data-quant-field="title">
+      {data.title}
+    </h1>
+    {data.description && (
+      <p class="mt-8 md:mt-10 text-xl md:text-[1.75rem] leading-[1.4] max-w-[40ch] muted" style="font-weight:340" data-quant-field="description">
+        {data.description}
+      </p>
+    )}
+  </header>
+
+  {data.image && (
+    <figure class="wrap mt-12 md:mt-20">
+      <div class="frame aspect-[16/10] md:aspect-[21/9]">
+        <img src={data.image} alt="" loading="eager" fetchpriority="high" data-quant-field="image" />
+      </div>
+    </figure>
+  )}
+
+  <div class="article-body wrap mt-14 md:mt-24" data-quant-field="body">
+    <slot />
+  </div>
+</article>

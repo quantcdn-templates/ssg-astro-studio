@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import robotsTxt from 'astro-robots-txt';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
@@ -29,10 +28,15 @@ export default defineConfig({
       redirectToDefaultLocale: false,
     },
   },
+  markdown: {
+    // Code blocks follow the light and dark themes (see .astro-code in global.css).
+    shikiConfig: {
+      themes: { light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' },
+    },
+  },
   integrations: [
     mdx(),
     sitemap(),
-    robotsTxt(),
   ],
   vite: {
     plugins: [tailwindcss()],

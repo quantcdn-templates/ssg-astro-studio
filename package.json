@@ -1,6 +1,6 @@
 {
   "name": "ssg-astro-studio",
-  "description": "Content-driven Astro site with Quant Studio integration",
+  "description": "Fieldwork: an editorial Astro journal starter for Quant Studio",
   "type": "module",
   "version": "1.0.0",
   "scripts": {
@@ -18,13 +18,11 @@
   "dependencies": {
     "astro": "^7.3.2",
     "@astrojs/mdx": "^8.0.0",
-    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.1",
-    "astro-robots-txt": "^1.0.0",
-    "satori": "^0.26.0",
+    "satori": "^0.63.2",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
@@ -41,5 +39,18 @@
   },
   "engines": {
     "node": ">=22.12.0"
+  },
+  "//": [
+    "overrides: @tailwindcss/typography 0.5.20 is the latest release and pins postcss-selector-parser 6.0.10 (GHSA-rj75-hqrm-r3gf, moderate); 6.1.5 produces byte-identical prose CSS.",
+    "overrides: satori 0.63.2 (latest) still pins fflate 0.7.3 (GHSA-px8p-9vwx-vf98, moderate); 0.7.5 renders byte-identical OG images.",
+    "Remove an override once its parent package releases a version with the fixed range."
+  ],
+  "overrides": {
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "^6.1.5"
+    },
+    "satori": {
+      "fflate": "^0.7.5"
+    }
   }
 }

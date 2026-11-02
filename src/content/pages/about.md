@@ -1,23 +1,23 @@
 ---
-title: About
-description: Learn more about this site and the team behind it.
+title: About Fieldwork
+description: An independent journal about places, craft and the people who make things with care.
+image: /images/studio.jpg
 ---
 
-This site is built with [Astro](https://astro.build) and managed with [Quant Studio](https://www.quantcdn.io). Content is stored in Git, edited visually, and deployed to a global CDN.
+Fieldwork is a small, independent journal. We write about towns that were built to last, rooms that hold the light well and objects made slowly by hand. We publish when a piece is ready, not before.
 
-## How it works
+## How we work
 
-1. **Write** — create and edit content in Quant Studio's visual editor or directly in markdown
-2. **Review** — preview changes in a branch environment before publishing
-3. **Publish** — merge to main and your site deploys automatically
+1. **Go and look.** Every story starts with a visit, a walk or an afternoon in a workshop.
+2. **Write it plainly.** Short sentences, real details, no filler.
+3. **Publish with care.** Each piece is edited, previewed and checked before it goes live.
 
-## Technology
+## How this site is made
 
-- **Astro 5** — static site generation with content collections
-- **Tailwind CSS** — utility-first styling with a clean theme
-- **MDX** — markdown with component support
-- **QuantCDN** — global CDN delivery with automatic SSL
+- **Astro** builds every page as static HTML from Markdown and MDX
+- **Quant Studio** is where the editors write, preview and publish
+- **QuantCDN** delivers the site from a global edge network
 
-## Get in touch
+## Write to us
 
-Have questions? [Open an issue](https://github.com) or reach out to the team.
+Have a place, a maker or a story we should know about? Tell us. To make this site your own, open this page in Quant Studio and put your contact details here.

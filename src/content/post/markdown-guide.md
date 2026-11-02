@@ -1,14 +1,14 @@
 ---
-title: Markdown formatting guide
-description: A reference for all the markdown features supported in your posts and pages.
-date: 2026-01-28
-author: Team
+title: A field guide to Markdown
+description: Headings, lists, quotes, tables and code. Every Markdown feature this journal supports, on one page you can keep open while you write.
+date: 2026-09-30
+author: The editors
 tags:
   - reference
   - markdown
 category: guide
-readingTime: 2
-image: /images/blog-markdown.jpeg
+readingTime: 4
+image: /images/letterpress.jpg
 ---
 
 This post demonstrates the markdown features available in your content. Use it as a reference when writing.

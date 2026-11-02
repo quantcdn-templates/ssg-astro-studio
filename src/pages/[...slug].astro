@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Page from '../components/Page.astro';
 import { slug, isDefaultLocale } from '../lib/i18n';
 
 export async function getStaticPaths() {
@@ -16,25 +17,7 @@ const { Content } = await render(page);
 ---
 
 <Layout title={page.data.title} description={page.data.description} image={page.data.image}>
-  <article>
-    <h1 class="text-3xl font-bold tracking-tight mb-4" data-quant-field="title">
-      {page.data.title}
-    </h1>
-    {page.data.description && (
-      <p class="text-lg text-gray-600 dark:text-gray-400 mb-8" data-quant-field="description">
-        {page.data.description}
-      </p>
-    )}
-    {page.data.image && (
-      <img
-        src={page.data.image}
-        alt={page.data.title}
-        class="w-full rounded-lg object-cover mb-8"
-        data-quant-field="image"
-      />
-    )}
-    <div class="prose prose-gray dark:prose-invert max-w-none" data-quant-field="body">
-      <Content />
-    </div>
-  </article>
+  <Page page={page}>
+    <Content />
+  </Page>
 </Layout>

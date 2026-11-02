@@ -10,7 +10,7 @@
       {
         "path": "src/components/Callout.astro",
         "group": "content",
-        "description": "Coloured note box.",
+        "description": "A note set apart from the text: info, tip, warning or note.",
         "defaults": {
           "type": "info",
           "title": "Note"
@@ -19,7 +19,7 @@
       {
         "path": "src/components/PostCard.astro",
         "group": "content",
-        "description": "Card for one post."
+        "description": "One story in a list: picture, category, title, standfirst and byline."
       }
     ]
   }

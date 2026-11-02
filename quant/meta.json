@@ -1,9 +1,9 @@
 {
-  "title": "Astro Studio",
-  "summary": "Content-driven Astro site with Quant Studio integration",
-  "content": "A clean Astro starter with blog and pages collections, Tailwind CSS, MDX support, dark mode, RSS feed, dynamic OG images, and a 404 page. Designed for visual editing with Quant Studio — your content schema becomes the editing interface.",
+  "title": "Astro Studio: Fieldwork",
+  "summary": "An editorial Astro journal set in one ink, made for Quant Studio",
+  "content": "Fieldwork is a starter for a journal, a blog or a small publication. Posts and pages are typed content collections that Quant Studio turns into its editing forms. The design is set in one ink colour on paper in light mode and reversed in dark mode, with Fraunces for display and body text and Instrument Sans for the interface, both self-hosted. It includes a home page with a lead story, a journal index, an article layout with a standfirst and pull quotes, an About page, MDX callouts, an RSS feed, a sitemap, robots.txt, OG images rendered at build time and a 404 page. The sample content is a fictional journal with generated photographs, ready for you to replace.",
   "categories": ["javascript", "astro", "studio"],
-  "tags": ["blog", "tailwind", "mdx", "content-collections", "rss", "og-images"],
+  "tags": ["blog", "journal", "editorial", "tailwind", "mdx", "content-collections", "rss", "og-images", "dark-mode"],
   "template_type": "ssg",
   "requires_db": false,
   "og_images": true

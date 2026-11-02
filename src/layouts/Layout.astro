@@ -2,36 +2,45 @@
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import { pathLocale } from '../lib/i18n';
+import { pathLocale, localePath } from '../lib/i18n';
+import { site } from '../site';
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  /** The home page shows the full masthead, so the header drops its wordmark. */
+  masthead?: boolean;
 }
 
-const { title, description = 'A site built with Astro and Quant Studio.', image } = Astro.props;
+const { title, description = site.description, image, masthead = false } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-// The OG route builds /og/<page path>.png. Strip the leading and trailing
-// slashes; `.html` and a trailing `index` are stripped too, so a path from an
-// older `build.format: 'file'` build still maps to the same slug. The home
-// page is "home".
+// The OG route builds /og/<page path>.png. build.format 'file' gives paths
+// such as /about.html and /index.html, and 'directory' gives /about/, so drop
+// ".html" and the slashes; the home page is "home".
 const ogSlug = Astro.url.pathname.replace(/^\/+|\/+$/g, '').replace(/\.html$/, '').replace(/(^|\/)index$/, '') || 'home';
-const ogImage = image || new URL(`/og/${ogSlug}.png`, Astro.site);
+// og:image must be an absolute URL, also for a frontmatter image such as /images/x.jpg.
+const ogImage = new URL(image || `/og/${ogSlug}.png`, Astro.site);
 const lang = pathLocale(Astro.url.pathname);
+const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
+const nav = [
+  { href: localePath('/blog', Astro.currentLocale), label: 'Journal' },
+  { href: localePath('/about', Astro.currentLocale), label: 'About' },
+];
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
+    <link rel="preload" href="/fonts/fraunces-normal-100-900.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:image" content={ogImage} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -39,32 +48,55 @@ const lang = pathLocale(Astro.url.pathname);
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('theme');
+        const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+      } catch {
+        // Storage is blocked: ThemeToggle falls back to the system theme.
+      }
+    </script>
     <ClientRouter />
   </head>
-  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
-    <header class="border-b border-gray-100 dark:border-gray-800">
-      <nav class="mx-auto max-w-3xl px-6 py-4 flex items-center justify-between">
-        <a href="/" class="text-lg font-semibold tracking-tight hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
-          Studio
+  <body class="min-h-screen flex flex-col">
+    <a href="#main" class="ui sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--ink)] focus:text-[var(--paper)]">Skip to content</a>
+    <header class="wrap flex items-center justify-between py-5 md:py-6">
+      {masthead ? (
+        <p class="ui muted hidden sm:block">{site.tagline}</p>
+      ) : (
+        <a href={localePath('/', Astro.currentLocale)} class="display text-[1.75rem] md:text-[2rem] no-underline" style="font-weight:400">
+          {site.name}
         </a>
-        <div class="flex items-center gap-6 text-sm">
-          <a href="/blog" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Blog</a>
-          <a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">About</a>
-          <ThemeToggle />
-        </div>
+      )}
+      <nav aria-label="Main" class="ui flex items-center gap-6 md:gap-8 ml-auto">
+        {nav.map((item) => (
+          <a href={item.href} class="link" aria-current={Astro.url.pathname.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+        ))}
+        <ThemeToggle />
       </nav>
     </header>
 
-    <main class="mx-auto max-w-3xl px-6 py-12">
+    <main id="main" class="flex-1">
       <slot />
     </main>
 
-    <footer class="border-t border-gray-100 dark:border-gray-800 mt-24">
-      <div class="mx-auto max-w-3xl px-6 py-8 text-sm text-gray-500 dark:text-gray-500">
-        <p>&copy; {new Date().getFullYear()} &middot; Built with <a href="https://astro.build" class="underline hover:text-gray-700 dark:hover:text-gray-300">Astro</a> and <a href="https://www.quantcdn.io" class="underline hover:text-gray-700 dark:hover:text-gray-300">Quant Studio</a></p>
+    <footer class={`${masthead ? "" : "mt-28 md:mt-40 "}bg-[var(--band)] text-[var(--band-text)] [--line:color-mix(in_oklab,var(--band-text)_35%,var(--band))]`}>
+      <div class="wrap py-14 md:py-20 grid gap-10 md:grid-cols-12">
+        <div class="md:col-span-7">
+          <p class="display text-[2.75rem] md:text-[4rem]" style="font-weight:300">{site.name}</p>
+          <p class="kicker mt-3 text-xl md:text-2xl max-w-[28ch] !text-[var(--band-text)] opacity-80">{site.tagline}.</p>
+        </div>
+        <div class="ui md:col-span-5 grid grid-cols-2 gap-8 content-end">
+          <ul class="space-y-2">
+            {nav.map((item) => <li><a href={item.href} class="link">{item.label}</a></li>)}
+            <li><a href="/rss.xml" class="link">RSS feed</a></li>
+          </ul>
+          <p class="opacity-80">
+            &copy; {new Date().getFullYear()} {site.name}.<br />
+            Made with <a href="https://astro.build" class="link">Astro</a> and <a href="https://www.quantcdn.io" class="link">Quant Studio</a>.
+          </p>
+        </div>
       </div>
     </footer>
   </body>

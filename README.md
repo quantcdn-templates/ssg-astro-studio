@@ -1,85 +1,91 @@
-# Astro Studio Template
+# Astro Studio: Fieldwork
 
-A content-driven Astro starter designed for Quant Studio. Blog posts and pages with typed schemas, Tailwind CSS, MDX support, dark mode, RSS feed, dynamic OG images, and more.
+An editorial Astro starter for Quant Studio. Fieldwork is set like a journal printed in one ink: one colour on paper in light mode, reversed in dark mode, with the photographs as the only other colour. Posts and pages are typed content collections, and Quant Studio turns their schemas into its editing forms.
+
+The sample content is a fictional journal called Fieldwork, with three essays, a few guide posts and an About page. Replace it with your own.
 
 ## Quick start
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321).
+Open [http://localhost:4321](http://localhost:4321). `npm run build` writes the static site to `dist/`.
 
-## Features
+## What's included
 
-- **Content collections** with typed Zod schemas (strings, dates, enums, booleans, numbers, arrays)
-- **Markdown and MDX** support with custom components (Callout)
-- **Tailwind CSS** with a clean, minimal theme and Inter font
-- **Dark mode** with toggle and `prefers-color-scheme` detection
-- **RSS feed** at `/rss.xml`
-- **Dynamic OG images** generated at build time with Satori + Resvg
-- **Automatic sitemap** and `robots.txt` generation
-- **404 page** with navigation back to home
-- **Draft posts** filtered from listings and feeds
-- **Category badges** and reading time display on posts
-- **SVG favicon** for crisp display at any size
+- **Home page** with a masthead, a lead story, an edition grid and a list of the rest
+- **Journal index** at `/blog` and an **article layout** with a standfirst, a wide image, a drop cap and pull quotes
+- **Pages** (`/about` and any page you add) at `/<slug>`
+- **Markdown and MDX**, with a `Callout` component for notes set apart from the text
+- **Light and dark themes** that follow the system setting, with a toggle; the choice is set before the first paint
+- **Self-hosted fonts**: Fraunces for display and body text, Instrument Sans for the interface
+- **Code blocks** highlighted in both themes (GitHub high-contrast light and dark)
+- **RSS feed** at `/rss.xml`, **sitemap** at `/sitemap-index.xml` and **robots.txt**
+- **OG images** rendered at build time for every page and post (satori and resvg), with the post photo when there is one
+- **404 page**, draft posts, categories, reading time, a skip link, visible focus rings and reduced-motion support
 
 ## Content
 
-Content lives in `src/content/` as markdown and MDX files with frontmatter:
+Content lives in `src/content/` as Markdown and MDX with frontmatter. The schemas are in `src/content.config.ts`.
 
-- **Blog posts** in `src/content/post/` — title, description, date, author, tags, draft, category, featured, readingTime, image
-- **Pages** in `src/content/pages/` — title, description
+- **Posts** in `src/content/post/`, published at `/blog/<slug>`: title, description, date, updated, author, tags, draft, category, featured, readingTime, image
+- **Pages** in `src/content/pages/`, published at `/<slug>`: title, description, image
 
-Schemas are defined in `src/content.config.ts` using Zod. Quant Studio reads these schemas to generate its visual editing interface.
+Keep these two folders and their routes: Quant Studio's "Start from template" maps the `post` collection to `src/content/post` at `/blog/%slug%` and the `page` collection to `src/content/pages` at `/%slug%`.
 
-### Categories
+### Site name and labels
 
-Posts support a `category` field with these options: `tutorial`, `news`, `guide`, `update`. Each displays as a coloured badge in listings and post headers.
+`src/site.ts` holds the site name, tagline, description and locale, and the display labels for the `category` values (`news` shows as Dispatch, `guide` as Field guide, `tutorial` as How-to and `update` as Notes). Change the labels there; the schema values stay the same.
 
-### MDX components
+### Colours and type
 
-MDX posts can import and use Astro components. The included `Callout` component supports four types: `info`, `tip`, `warning`, and `note`. See `src/content/post/mdx-components.mdx` for examples.
-
-### Translations
-
-The template ships English only. `astro.config.mjs` sets `i18n.locales` to `['en']` with `prefixDefaultLocale: false`.
-
-- **Default-locale (English) content** sits flat at the collection root, for example `src/content/post/getting-started.md`. Do not put it in an `en/` folder. It is served without a prefix, at `/blog/getting-started`.
-- **Another locale's content** goes in `src/content/<collection>/<locale>/`, for example `src/content/post/fr/getting-started.md`. It is served at `/fr/blog/getting-started`.
-- **Add the locale** to `i18n.locales` in `astro.config.mjs`, for example `['en', 'fr']`. That list is the one place to add a locale. `src/lib/i18n.ts` reads it from `astro.config.mjs`, and Quant Studio reads and writes the same list, so do not list locales anywhere else.
+The palette is two tokens, paper and ink, defined for each theme at the top of `src/styles/global.css`. Change those two values to recolour the whole site. The OG image colours are at the top of `src/pages/og/[...slug].png.ts`.
 
 ### Draft posts
 
-Set `draft: true` in frontmatter to exclude a post from the published site entirely. Draft posts are:
+Set `draft: true` to keep a post off the published site. A draft is left out of the listings, the RSS feed and the build, but you can still open and preview it in Quant Studio.
 
-- Excluded from the blog listing and home page
-- Excluded from the RSS feed
-- **Not built as static pages** — no HTML is generated or deployed to QuantCDN
-- Not included in OG image generation
+### MDX components
 
-You can still preview and edit draft posts in Quant Studio's visual editor, which renders content in the browser independently of the static build.
+MDX posts can import Astro components. `Callout` takes a `type` (`info`, `tip`, `warning` or `note`) and an optional `title`. See `src/content/post/mdx-components.mdx`.
 
-When you're ready to publish, set `draft` to `false` (or remove it) and the next build will generate and deploy the page.
+### Translations
+
+The starter ships English only: `astro.config.mjs` sets `i18n.locales` to `['en']` with `prefixDefaultLocale: false`.
+
+- **English content** sits flat at the collection root, for example `src/content/post/getting-started.md`, served at `/blog/getting-started`. Do not put it in an `en/` folder.
+- **Another locale's content** goes in `src/content/<collection>/<locale>/`, for example `src/content/post/fr/getting-started.md`, served at `/fr/blog/getting-started`.
+- **Add the locale** to `i18n.locales` in `astro.config.mjs`. That list is the one place to add a locale: `src/lib/i18n.ts` and Quant Studio both read it.
 
 ## OG images
 
-OG images are generated at build time for every page and post using Satori and Resvg. They use the site's accent colour palette with the post title rendered in Inter. No external image service needed.
+`src/pages/og/[...slug].png.ts` renders a 1200 x 630 PNG for every page and post at build time, from static font files in `src/assets/og` (satori cannot read woff2). It reads files with `node:fs` rather than `node:fs/promises`, because Quant Studio's builder gives endpoints `node:fs` and `node:path` only. Keep it that way if you edit the route.
 
 ## Deploying to QuantCDN
 
-1. Push this repo to GitHub
-2. Create a project in the [Quant dashboard](https://dashboard.quantcdn.io)
-3. Add `QUANT_CUSTOMER`, `QUANT_PROJECT` as repository variables and `QUANT_TOKEN` as a secret
-4. Push to `main` — the included GitHub Action builds and deploys automatically
+1. Push this repository to GitHub.
+2. Create a project in the [Quant dashboard](https://dashboard.quantcdn.io).
+3. Add `QUANT_CUSTOMER` and `QUANT_PROJECT` as repository variables and `QUANT_TOKEN` as a secret.
+4. Push to `main`. The GitHub Action builds the site and deploys it. Without the credentials it only verifies the build.
 
 ## Editing with Quant Studio
 
-Connect this project to Quant Studio in the dashboard to get:
+Connect the project to Quant Studio in the dashboard for a live preview with click-to-edit fields, schema-driven forms, MDX component previews, AI help with content and branch environments for drafts and review.
 
-- Visual preview with click-to-edit
-- Schema-driven forms for frontmatter (dropdowns for enums, toggles for booleans, number inputs)
-- MDX component rendering in preview
-- AI content generation
-- Branch environments for drafts and review
+## Same design as the Quant Studio demo
+
+This starter and the Quant Studio demo (`/studio/demo`, from `src/resources/studio-demo-template` in the portal) are one design with the same content. Change both together. The intended differences:
+
+| | This starter | Studio demo |
+|---|---|---|
+| `build.format` | `directory` with `trailingSlash: 'never'`, so CI publishes clean addresses (`/about`) | `file` |
+| RSS links | no trailing slash | trailing slash |
+| Tooling | ESLint, Prettier, `quant.studio.json`, `quant/meta.json`, CI workflow, Dependabot | none (the portal copies the folder into each demo session) |
+
+## Credits and licences
+
+- Fonts: [Fraunces](https://github.com/undercasetype/Fraunces) and [Instrument Sans](https://github.com/Instrument/instrument-sans), SIL Open Font License 1.1. The licence texts are in `public/fonts/`. `src/assets/og` holds static instances of the same fonts for the OG images.
+- Photographs in `public/images/` were generated for this starter. They show no people, text or brands.
+- The writers named in the sample posts are fictional.

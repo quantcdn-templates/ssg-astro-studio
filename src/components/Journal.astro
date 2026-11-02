@@ -1,0 +1,44 @@
+---
+/**
+ * The journal index: every published story, newest first.
+ * blog/index.astro and [lang]/blog/index.astro both render it.
+ */
+import type { CollectionEntry } from 'astro:content';
+import PostCard from './PostCard.astro';
+import { slug } from '../lib/i18n';
+import { site } from '../site';
+
+interface Props {
+  posts: CollectionEntry<'post'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<header class="wrap pt-10 md:pt-20">
+  <h1 class="display rise text-[4rem] leading-[0.92] sm:text-[6rem] lg:text-[9rem]" style="font-weight:300">The journal</h1>
+  <p class="kicker mt-5 md:mt-7 text-xl md:text-2xl max-w-[40ch]">Every story in {site.name}, newest first.</p>
+</header>
+
+<div class="wrap mt-14 md:mt-24">
+  {posts.length > 0 ? (
+    <ul class="space-y-16 md:space-y-24">
+      {posts.map((post) => (
+        <li>
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            slug={slug(post.id)}
+            tags={post.data.tags}
+            category={post.data.category}
+            image={post.data.image}
+            author={post.data.author}
+          />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="text-xl muted">No stories yet. Add a post in Quant Studio and it appears here.</p>
+  )}
+</div>
