@@ -92,7 +92,7 @@ const edition = lead ? new Date(lead.data.date).toLocaleDateString(site.locale, 
           <article>
             <a href={href(post)} class="story-link block">
               {post.data.image && (
-                <div class="frame aspect-[4/3]">
+                <div class="frame frame-on-tint aspect-[4/3]">
                   <img src={post.data.image} alt="" loading="lazy" />
                 </div>
               )}

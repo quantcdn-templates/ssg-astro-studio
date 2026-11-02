@@ -137,6 +137,12 @@ a {
   background: var(--tint);
 }
 
+/* On the tinted guides band a tint frame is invisible, so a picture that has
+   not loaded yet (lazy, below the fold) left an empty gap. Paper shows the frame. */
+.frame-on-tint {
+  background: var(--paper);
+}
+
 .frame img {
   width: 100%;
   height: 100%;
