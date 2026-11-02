@@ -1,22 +1,21 @@
 ---
+/**
+ * A note set apart from the text, for MDX content.
+ * The four types differ by label and border, not by colour alone,
+ * so they stay clear in the one-ink palette and in both themes.
+ */
 interface Props {
   type?: 'info' | 'tip' | 'warning' | 'note';
   title?: string;
 }
 
 const { type = 'info', title } = Astro.props;
-
-const styles = {
-  info: 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200',
-  tip: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200',
-  warning: 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200',
-  note: 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200',
-};
+const labels = { info: 'Good to know', tip: 'Tip', warning: 'Warning', note: 'Note' };
 ---
 
-<div class={`rounded-lg border p-4 my-6 ${styles[type]}`}>
-  {title && <p class="font-semibold mb-1">{title}</p>}
-  <div class="text-sm leading-relaxed">
+<aside class={`callout callout-${type}`} aria-label={title ?? labels[type]}>
+  <p class="callout-label">{title ?? labels[type]}</p>
+  <div class="callout-body">
     <slot />
   </div>
-</div>
+</aside>

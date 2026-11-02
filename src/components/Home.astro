@@ -1,0 +1,108 @@
+---
+/**
+ * The home page: masthead, lead story, the other essays, and the guides
+ * that show an editor how this site works. index.astro and [lang]/index.astro
+ * both render it with their own posts, newest first.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { slug, localePath } from '../lib/i18n';
+import { site, categoryLabel, formatDate } from '../site';
+
+interface Props {
+  posts: CollectionEntry<'post'>[];
+}
+
+const { posts } = Astro.props;
+const GUIDES = ['tutorial', 'guide'];
+const isGuide = (post: CollectionEntry<'post'>) => GUIDES.includes(post.data.category ?? '');
+
+// The lead story is the newest featured post, or the newest essay, or the newest post.
+const lead = posts.find((post) => post.data.featured) ?? posts.find((post) => !isGuide(post)) ?? posts[0];
+const rest = posts.filter((post) => post !== lead);
+const essays = rest.filter((post) => !isGuide(post)).slice(0, 2);
+const guides = rest.filter(isGuide).slice(0, 4);
+const href = (post: CollectionEntry<'post'>) => localePath(`/blog/${slug(post.id)}`, Astro.currentLocale);
+const edition = lead ? new Date(lead.data.date).toLocaleDateString(site.locale, { month: 'long', year: 'numeric' }) : '';
+---
+
+<section class="wrap" aria-labelledby="masthead">
+  <h1 id="masthead" class="masthead rise">{site.name}</h1>
+  <p class="kicker mt-4 md:mt-6 pb-10 md:pb-16 text-lg md:text-2xl">
+    <span class="sm:hidden">{site.tagline}. </span>The {edition} edition
+  </p>
+</section>
+
+{lead && (
+  <section class="wrap" aria-label="Lead story">
+    <a href={href(lead)} class="story-link grid gap-8 md:gap-12 md:grid-cols-12 items-end">
+      {lead.data.image && (
+        <div class="frame md:col-span-7 aspect-[4/3] md:aspect-[5/4]">
+          <img src={lead.data.image} alt="" loading="eager" fetchpriority="high" />
+        </div>
+      )}
+      <div class={lead.data.image ? 'md:col-span-5 md:pb-2' : 'md:col-span-9'}>
+        {lead.data.category && <p class="kicker text-xl">{categoryLabel(lead.data.category)}</p>}
+        <h2 class="story-title display mt-3 text-[2.9rem] leading-[0.98] md:text-[4.5rem] lg:text-[5.75rem]">{lead.data.title}</h2>
+        <p class="mt-6 text-lg md:text-xl leading-relaxed muted max-w-[34ch]">{lead.data.description}</p>
+        <p class="ui mt-6">
+          By {lead.data.author}<span class="muted">, {formatDate(lead.data.date)}</span>
+        </p>
+      </div>
+    </a>
+  </section>
+)}
+
+<section class="wrap mt-24 md:mt-36" aria-labelledby="edition">
+  <h2 id="edition" class="display text-4xl md:text-5xl">Also in this edition</h2>
+  <div class="mt-10 md:mt-14 grid gap-12 md:gap-10 md:grid-cols-12">
+    {essays.map((post, i) => (
+      <article class={i === 0 ? 'md:col-span-4' : 'md:col-span-4 md:mt-24'}>
+        <a href={href(post)} class="story-link block">
+          {post.data.image && (
+            <div class="frame aspect-[4/5]">
+              <img src={post.data.image} alt="" loading="lazy" />
+            </div>
+          )}
+          {post.data.category && <p class="kicker mt-5 text-lg">{categoryLabel(post.data.category)}</p>}
+          <h3 class="story-title display mt-2 text-[1.9rem] md:text-[2.1rem] leading-[1.05]">{post.data.title}</h3>
+          <p class="mt-3 leading-relaxed muted">{post.data.description}</p>
+        </a>
+      </article>
+    ))}
+    <aside class="md:col-span-4 md:pl-6 md:self-center" aria-labelledby="letter">
+      <h3 id="letter" class="kicker text-xl">From the editors</h3>
+      <p class="display mt-4 text-[1.75rem] md:text-[2rem] leading-[1.15]" style="font-weight:330">{site.description}</p>
+      <p class="ui mt-6 flex flex-wrap gap-x-6 gap-y-2">
+        <a href={localePath('/about', Astro.currentLocale)} class="link">About {site.name}</a>
+        <a href={localePath('/blog', Astro.currentLocale)} class="link">Read the whole journal</a>
+      </p>
+    </aside>
+  </div>
+</section>
+
+{guides.length > 0 && (
+  <section class="mt-24 md:mt-36 py-16 md:py-24 bg-[var(--tint)]" aria-labelledby="guides">
+    <div class="wrap">
+      <div class="grid gap-6 md:grid-cols-12 items-end">
+        <h2 id="guides" class="display md:col-span-7 text-[2.75rem] md:text-[4rem] leading-[1]">How this journal is made</h2>
+        <p class="kicker md:col-span-5 text-xl md:text-2xl">Guides for the people who write, edit and publish {site.name} in Quant Studio.</p>
+      </div>
+      <div class="mt-12 md:mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
+        {guides.map((post) => (
+          <article>
+            <a href={href(post)} class="story-link block">
+              {post.data.image && (
+                <div class="frame frame-on-tint aspect-[4/3]">
+                  <img src={post.data.image} alt="" loading="lazy" />
+                </div>
+              )}
+              {post.data.category && <p class="kicker mt-5">{categoryLabel(post.data.category)}</p>}
+              <h3 class="story-title display mt-1 text-[1.6rem] leading-[1.1]">{post.data.title}</h3>
+              <p class="mt-3 leading-relaxed muted text-[1.0625rem]">{post.data.description}</p>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

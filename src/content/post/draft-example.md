@@ -1,8 +1,8 @@
 ---
 title: Draft post example
 description: This post is marked as draft and will not appear on the published site.
-date: 2026-02-06
-author: Team
+date: 2026-10-31
+author: The editors
 tags:
   - example
 category: update

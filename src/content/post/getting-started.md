@@ -1,36 +1,35 @@
 ---
-title: Getting started with Quant Studio
-description: Set up your content workflow with Quant Studio and start publishing in minutes.
-date: 2026-02-01
-author: Team
+title: Start with one good page
+description: How this journal is made, and how to make it yours. Edit a title, publish a post and put your site on a global CDN with Quant Studio.
+date: 2026-10-30
+author: The editors
 tags:
   - getting-started
   - quant-studio
 category: tutorial
-featured: true
 readingTime: 3
-image: /images/hero.jpeg
+image: /images/desk.jpg
 ---
 
-Welcome to your new site powered by Quant Studio. This template gives you a clean starting point with blog posts and pages, all managed through a visual editor.
+Every publication worth reading started as one page that someone cared about. This starter gives you that page, and the structure around it: posts, pages, an RSS feed, social images and a theme that works in light and dark.
 
 ## What you get
 
-- **Content collections** with typed schemas — every field is validated
-- **Markdown and MDX** support for rich content
-- **Tailwind CSS** with a clean, minimal theme
-- **Dark mode** built in
-- **Automatic sitemap** generation
+- **Content collections** with typed schemas, so every field is checked when the site builds
+- **Markdown and MDX** for rich content and reusable components
+- **Tailwind CSS** with a typographic theme you can change in one file
+- **Light and dark modes** that follow the reader's system setting
+- **RSS, a sitemap and social images** made for every page
 
 ## Writing content
 
-Create new posts by adding markdown files to `src/data/post/`. Each post needs frontmatter with at least a `title`, `description`, and `date`.
+Open any post in Quant Studio and change it in the visual editor. The preview updates as you type. To add a post in code, put a Markdown file in `src/content/post/`. Each post needs at least a `title`, a `description` and a `date`.
 
 ```markdown
 ---
 title: My new post
 description: A short summary of the post.
-date: 2026-02-07
+date: 2026-11-01
 tags:
   - example
 ---
@@ -38,8 +37,10 @@ tags:
 Your content goes here.
 ```
 
-Or use Quant Studio's visual editor to create and edit content directly in the browser — no code required.
+## Making it yours
 
-## Deploying
+Change the name and tagline of the site in `src/site.ts`. The colours and fonts are in `src/styles/global.css`.
 
-Push to `main` and the included GitHub Action builds and deploys to QuantCDN automatically. Your site is live on a global CDN with automatic SSL.
+## Publishing
+
+Publish from Quant Studio, or push to `main` and let the included workflow build and deploy the site to QuantCDN. Your pages go live on a global CDN with automatic SSL.

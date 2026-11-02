@@ -1,5 +1,10 @@
 ---
+/**
+ * One story in a list: picture, category, title, standfirst and byline.
+ * The blog indexes and the 404 page use it.
+ */
 import { localePath } from '../lib/i18n';
+import { categoryLabel, formatDate } from '../site';
 
 interface Props {
   title: string;
@@ -8,51 +13,32 @@ interface Props {
   slug: string;
   tags?: string[];
   category?: string;
+  image?: string;
+  author?: string;
+  /** compact: no picture and a smaller title, for short lists. */
+  compact?: boolean;
 }
 
-const { title, description, date: rawDate, slug, tags = [], category } = Astro.props;
+const { title, description, date: rawDate, slug, category, image, author, compact = false } = Astro.props;
 const blogPath = localePath(`/blog/${slug}`, Astro.currentLocale);
 const date = new Date(rawDate);
-const formattedDate = date.toLocaleDateString('en-AU', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
-const categoryColors: Record<string, string> = {
-  tutorial: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300',
-  news: 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300',
-  guide: 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300',
-  update: 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300',
-};
+const pictured = Boolean(image) && !compact;
 ---
 
-<article class="group">
-  <a href={blogPath} class="block">
-    <div class="flex items-center gap-3">
-      <time class="text-sm text-gray-500 dark:text-gray-500" datetime={date.toISOString()}>
-        {formattedDate}
-      </time>
-      {category && (
-        <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] || 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'}`}>
-          {category}
-        </span>
-      )}
+<article>
+  <a href={blogPath} class={`story-link grid gap-6 md:gap-10 ${pictured ? 'md:grid-cols-12 md:items-center' : ''}`}>
+    {pictured && (
+      <div class="frame aspect-[3/2] md:col-span-5 lg:col-span-4">
+        <img src={image} alt="" loading="lazy" />
+      </div>
+    )}
+    <div class={pictured ? 'md:col-span-7 lg:col-span-7 lg:col-start-6' : ''}>
+      {category && <p class="kicker text-lg">{categoryLabel(category)}</p>}
+      <h2 class={`story-title display mt-2 leading-[1.05] ${compact ? 'text-[1.75rem]' : 'text-[2.1rem] md:text-[2.75rem]'}`}>{title}</h2>
+      {!compact && <p class="mt-4 text-lg leading-relaxed muted max-w-[46ch]">{description}</p>}
+      <p class="ui mt-4">
+        {author && <span>By {author}, </span>}<time class="muted" datetime={date.toISOString()}>{formatDate(date)}</time>
+      </p>
     </div>
-    <h2 class="mt-1 text-xl font-semibold group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
-      {title}
-    </h2>
-    <p class="mt-2 text-gray-600 dark:text-gray-400 leading-relaxed">
-      {description}
-    </p>
   </a>
-  {tags.length > 0 && (
-    <div class="mt-3 flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
-          {tag}
-        </span>
-      ))}
-    </div>
-  )}
 </article>

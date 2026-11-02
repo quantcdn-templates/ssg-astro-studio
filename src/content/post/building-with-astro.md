@@ -1,14 +1,14 @@
 ---
-title: Why we chose Astro
-description: Astro's content-first architecture makes it the ideal foundation for managed content sites.
-date: 2026-01-20
-author: Team
+title: Why this journal runs on Astro
+description: Static pages, typed content and almost no JavaScript. The reasons behind the framework under every page you read here.
+date: 2026-09-22
+author: The editors
 tags:
   - astro
   - architecture
 category: guide
 readingTime: 4
-image: /images/blog-astro.jpeg
+image: /images/night-sky.jpg
 ---
 
 Astro is a web framework designed for content-driven websites. It ships zero JavaScript by default, generates static HTML at build time, and has first-class support for content collections with type-safe schemas.
