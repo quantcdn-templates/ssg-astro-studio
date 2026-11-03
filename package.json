@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "astro": "^7.3.2",
-    "@astrojs/mdx": "^8.0.0",
+    "@astrojs/mdx": "^8.1.2",
     "@astrojs/sitemap": "^3.7.4",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.20",
-    "@tailwindcss/vite": "^4.3.1",
+    "@tailwindcss/vite": "^4.3.3",
     "satori": "^0.63.2",
     "tailwindcss": "^4.3.1"
   },
@@ -32,7 +32,7 @@
     "eslint": "^10.0.0",
     "eslint-plugin-astro": "^1.0.0",
     "globals": "^15.0.0",
-    "prettier": "^3.0.0",
+    "prettier": "^3.9.10",
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0"
